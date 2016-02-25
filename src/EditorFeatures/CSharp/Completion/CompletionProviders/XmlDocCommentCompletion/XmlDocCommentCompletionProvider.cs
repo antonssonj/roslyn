@@ -125,7 +125,7 @@ namespace Microsoft.CodeAnalysis.Editor.CSharp.Completion.CompletionProviders.Xm
 
         private IEnumerable<CompletionItem> GetTopLevelSingleUseNames(DocumentationCommentTriviaSyntax parentTrivia, TextSpan span)
         {
-            var names = new HashSet<string>(new[] { SummaryTagName, RemarksTagName, ExampleTagName, CompletionListTagName });
+            var names = new HashSet<string>(new[] { SummaryTagName, RemarksTagName, ExampleTagName, CompletionListTagName, "inheritdoc" });
 
             RemoveExistingTags(parentTrivia, names, (x) => x.StartTag.Name.LocalName.ValueText);
 

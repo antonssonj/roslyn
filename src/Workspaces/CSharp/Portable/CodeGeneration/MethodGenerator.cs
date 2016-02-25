@@ -43,6 +43,11 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGeneration
             IList<bool> availableIndices)
         {
             var methodDeclaration = GenerateMethodDeclaration(method, GetDestination(destination), options);
+            SyntaxFactory
+            //.WithLeadingTrivia(SyntaxFactory.TriviaList(
+            //    SyntaxFactory.SyntaxTrivia(SyntaxKind.SingleLineCommentTrivia, "/// <inheritdoc />")
+            //))
+            //.NormalizeWhitespace();
 
             // Create a clone of the original type with the new method inserted. 
             var members = Insert(destination.Members, methodDeclaration, options, availableIndices, after: LastMethod);

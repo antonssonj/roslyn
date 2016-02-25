@@ -183,9 +183,10 @@ namespace Microsoft.CodeAnalysis.ImplementInterface
                     result.Project.Solution, classOrStructType, memberDefinitions,
                     new CodeGenerationOptions(contextLocation: classOrStructDecl.GetLocation()),
                     cancellationToken).ConfigureAwait(false);
-
+                
                 return result;
             }
+            
 
             private IList<ISymbol> GenerateMembers(
                 Compilation compilation,

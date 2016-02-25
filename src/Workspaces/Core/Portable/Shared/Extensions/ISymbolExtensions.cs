@@ -871,7 +871,14 @@ namespace Microsoft.CodeAnalysis.Shared.Extensions
         public static DocumentationComment GetDocumentationComment(this ISymbol symbol, CultureInfo preferredCulture = null, bool expandIncludes = false, CancellationToken cancellationToken = default(CancellationToken))
         {
             string xmlText = symbol.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
-            return string.IsNullOrEmpty(xmlText) ? DocumentationComment.Empty : DocumentationComment.FromXmlFragment(xmlText);
+            
+            if (xmlText.Contains("<inheritdoc />"))
+            {
+                var type = symbol as INamedTypeSymbol;
+                xmlText = type.BaseType.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
+            }
+
+            return string.IsNullOrEmpty(xmlText) ? DocumentationComment.Empty : DocumentationComment.FromXmlFragment(xmlText); ;
         }
 
         /// <summary>

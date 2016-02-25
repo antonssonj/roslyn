@@ -255,7 +255,7 @@ namespace Microsoft.CodeAnalysis.Editor.Implementation.IntelliSense.QuickInfo
                 }
 
                 var documentation = symbol.GetDocumentationParts(semanticModel, token.SpanStart, formatter, cancellationToken);
-
+                
                 if (documentation != null)
                 {
                     return CreateClassifiableDeferredContent(documentation.ToList());
