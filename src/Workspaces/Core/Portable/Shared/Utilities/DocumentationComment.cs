@@ -95,6 +95,35 @@ namespace Microsoft.CodeAnalysis.Shared.Utilities
             return result;
         }
 
+        public DocumentationComment MergeWithHigerSymbolComment(DocumentationComment comment, string name)
+        {
+            return new DocumentationComment
+            {
+                CompletionListCref = CompletionListCref,
+                ExampleText = ExampleText,
+                ExceptionTypes = ExceptionTypes,
+                FullXmlFragment = FullXmlFragment,
+                HadXmlParseError = HadXmlParseError,
+                ParameterNames = ParameterNames,
+                RemarksText = RemarksText,
+                ReturnsText = ReturnsText,
+                SummaryText = GetMergedText(SummaryText,comment.SummaryText,name),
+                TypeParameterNames = TypeParameterNames
+            };
+        }
+        private string GetMergedText(string source,string higher,string higherName)
+        {
+            if(!string.IsNullOrWhiteSpace(source))
+            {
+                return source;
+            }
+            if (!string.IsNullOrWhiteSpace(higher))
+            {
+                return $"From {higherName}: {higher}";
+            }
+            return string.Empty;
+        }
+
         /// <summary>
         /// Helper class for parsing XML doc comments. Encapsulates the state required during parsing.
         /// </summary>

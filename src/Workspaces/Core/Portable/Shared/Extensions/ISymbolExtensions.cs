@@ -871,14 +871,69 @@ namespace Microsoft.CodeAnalysis.Shared.Extensions
         public static DocumentationComment GetDocumentationComment(this ISymbol symbol, CultureInfo preferredCulture = null, bool expandIncludes = false, CancellationToken cancellationToken = default(CancellationToken))
         {
             string xmlText = symbol.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
-            
-            if (xmlText.Contains("<inheritdoc />"))
+            var comment = string.IsNullOrEmpty(xmlText) ? DocumentationComment.Empty : DocumentationComment.FromXmlFragment(xmlText);
+
+            if (xmlText.Contains("<inheritdoc />")) 
             {
-                var type = symbol as INamedTypeSymbol;
-                xmlText = type.BaseType.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
+                var higherSymbol = GetHigherSymbol(symbol);
+                if(higherSymbol != null)
+                {
+                    var higherXmlText = higherSymbol.GetDocumentationCommentXml(preferredCulture, expandIncludes, cancellationToken);
+                    var higherComment = string.IsNullOrEmpty(xmlText) ? DocumentationComment.Empty : DocumentationComment.FromXmlFragment(higherXmlText);
+                    comment = comment.MergeWithHigerSymbolComment(higherComment, higherSymbol.Name);
+                }
+                
+
             }
 
-            return string.IsNullOrEmpty(xmlText) ? DocumentationComment.Empty : DocumentationComment.FromXmlFragment(xmlText); ;
+            return comment;
+        }
+
+        private static ISymbol GetHigherSymbol(ISymbol symbol)
+        {
+            var typeSymbol = symbol as INamedTypeSymbol;
+            if(typeSymbol != null)
+            {
+                if(typeSymbol.BaseType.ToSignatureDisplayString() != "System.Object")
+                {
+                    return typeSymbol.BaseType;
+                }
+
+                if(typeSymbol.AllInterfaces.Any())
+                {
+                    return typeSymbol.AllInterfaces.First();
+                }
+            }
+
+            var methodSymbol = symbol as IMethodSymbol;
+            if(methodSymbol != null)
+            {
+
+
+                if(methodSymbol.OverriddenMethod != null)
+                {
+                    return methodSymbol.OverriddenMethod;
+                }
+
+                var possibleMatches =
+                    methodSymbol
+                    .ContainingType
+                    .AllInterfaces
+                    .SelectMany(x => x.GetMembers())
+                    .OfType<IMethodSymbol>()
+                    .Where(x => x.Name == methodSymbol.Name && methodSymbol.Equals(methodSymbol.ContainingType.FindImplementationForInterfaceMember(x)))
+                    .FirstOrDefault();
+
+                if(possibleMatches != null)
+                {
+                    return possibleMatches;
+                }
+
+
+                
+            }
+
+            return null;
         }
 
         /// <summary>
