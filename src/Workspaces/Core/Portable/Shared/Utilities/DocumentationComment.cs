@@ -253,6 +253,10 @@ namespace Microsoft.CodeAnalysis.Shared.Utilities
 
                         reader.ReadInnerXml();
                     }
+                    else if (XmlNames.ElementEquals(localName, XmlNames.CompletionListElementName))
+                    {
+
+                    }
                     else
                     {
                         // This is an element we don't handle. Skip it.

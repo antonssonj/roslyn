@@ -175,6 +175,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.WhereClause:
                     clauseKind = SyntaxFacts.GetText(SyntaxKind.WhereKeyword);
                     break;
+                case SyntaxKind.TakeClause:
+                    clauseKind = SyntaxFacts.GetText(SyntaxKind.TakeKeyword);
+                    break;
                 case SyntaxKind.OrderByClause:
                 case SyntaxKind.AscendingOrdering:
                 case SyntaxKind.DescendingOrdering:

@@ -221,7 +221,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                 {
                     diagnostics.Add(ErrorCode.ERR_ExtensionMethodsDecl, location, ContainingType.Name);
                 }
-                else if (!ContainingType.IsScriptClass && !(ContainingType.IsStatic && ContainingType.Arity == 0))
+                else if (!ContainingType.IsScriptClass && 
+                         !((this.DeclarationModifiers & DeclarationModifiers.Private) != 0 ||  
+                            ContainingType.IsStatic && ContainingType.Arity == 0))
                 {
                     // Duplicate Dev10 behavior by selecting the containing type identifier. However if there
                     // is no containing type (in the interactive case for instance), select the method identifier.

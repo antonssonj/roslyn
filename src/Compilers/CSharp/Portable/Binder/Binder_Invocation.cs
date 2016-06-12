@@ -1204,8 +1204,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.ThisExpression:
                 case SyntaxKind.BaseExpression:
                 case SyntaxKind.PredefinedType:
-                    name = "";
-                    if (top) goto default;
+                    name = argument.ToString();
+                    //if (top) goto default;
                     return true;
                 default:
                     {

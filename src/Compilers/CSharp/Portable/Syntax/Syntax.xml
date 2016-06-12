@@ -1492,6 +1492,13 @@
     </Field>
     <Field Name="Condition" Type="ExpressionSyntax"/>
   </Node>
+  <Node Name="TakeClauseSyntax" Base="QueryClauseSyntax">
+    <Kind Name="TakeClause"/>
+    <Field Name="TakeKeyword" Type="SyntaxToken">
+      <Kind Name="TakeKeyword"/>
+    </Field>
+    <Field Name="Condition" Type="ExpressionSyntax"/>
+  </Node>
   <Node Name="OrderByClauseSyntax" Base="QueryClauseSyntax">
     <Kind Name="OrderByClause"/>
     <Field Name="OrderByKeyword" Type="SyntaxToken">
@@ -1512,6 +1519,13 @@
     <Kind Name="SelectClause"/>
     <Field Name="SelectKeyword" Type="SyntaxToken">
       <Kind Name="SelectKeyword"/>
+    </Field>
+    <Field Name="Expression" Type="ExpressionSyntax"/>
+  </Node>
+   <Node Name="SelectMaxClauseSyntax" Base="SelectOrGroupClauseSyntax">
+    <Kind Name="SelectMaxClause"/>
+    <Field Name="MaxKeyword" Type="SyntaxToken">
+      <Kind Name="MaxKeyword"/>
     </Field>
     <Field Name="Expression" Type="ExpressionSyntax"/>
   </Node>

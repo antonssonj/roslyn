@@ -8589,7 +8589,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                     {
                         expr = _syntaxFactory.PredefinedType(this.EatToken());
 
-                        if (this.CurrentToken.Kind != SyntaxKind.DotToken || tk == SyntaxKind.VoidKeyword)
+                        if (!isinnameof &&  (this.CurrentToken.Kind != SyntaxKind.DotToken || tk == SyntaxKind.VoidKeyword))
                         {
                             expr = this.AddError(expr, ErrorCode.ERR_InvalidExprTerm, SyntaxFacts.GetText(tk));
                         }
@@ -8611,8 +8611,20 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                     break;
             }
 
-            return this.ParsePostFixExpression(expr);
+            var ins = expr as IdentifierNameSyntax;
+            if (ins != null && ins.ToFullString() == "nameof")
+            {
+                isinnameof = true;
+            }
+
+            var res = this.ParsePostFixExpression(expr);
+
+            isinnameof = false;
+
+            return res;
         }
+
+        private bool isinnameof = false;
 
         private bool IsPossibleLambdaExpression(uint precedence)
         {
@@ -10144,6 +10156,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                 case SyntaxKind.JoinKeyword:
                 case SyntaxKind.IntoKeyword:
                 case SyntaxKind.WhereKeyword:
+                case SyntaxKind.TakeKeyword:
                 case SyntaxKind.OrderByKeyword:
                 case SyntaxKind.GroupKeyword:
                 case SyntaxKind.SelectKeyword:
@@ -10272,6 +10285,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                         case SyntaxKind.WhereKeyword:
                             clauses.Add(this.ParseWhereClause());
                             continue;
+                        case SyntaxKind.TakeKeyword:
+                            clauses.Add(this.ParseTakeClause());
+                            continue;
                         case SyntaxKind.OrderByKeyword:
                             clauses.Add(this.ParseOrderByClause());
                             continue;
@@ -10385,7 +10401,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             var condition = this.ParseExpressionCore();
             return _syntaxFactory.WhereClause(@where, condition);
         }
-
+        private TakeClauseSyntax ParseTakeClause()
+        {
+            Debug.Assert(this.CurrentToken.ContextualKind == SyntaxKind.TakeKeyword);
+            var @where = this.EatContextualToken(SyntaxKind.TakeKeyword);
+            var condition = this.ParseExpressionCore();
+            return _syntaxFactory.TakeClause(@where, condition);
+        }
         private OrderByClauseSyntax ParseOrderByClause()
         {
             Debug.Assert(this.CurrentToken.ContextualKind == SyntaxKind.OrderByKeyword);

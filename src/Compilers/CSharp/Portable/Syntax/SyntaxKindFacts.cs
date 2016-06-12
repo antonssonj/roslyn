@@ -1052,6 +1052,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.LetKeyword:
                 case SyntaxKind.ByKeyword:
                 case SyntaxKind.WhereKeyword:
+                case SyntaxKind.TakeKeyword:
                 case SyntaxKind.SelectKeyword:
                 case SyntaxKind.GetKeyword:
                 case SyntaxKind.SetKeyword:
@@ -1088,6 +1089,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 case SyntaxKind.FromKeyword:
                 case SyntaxKind.WhereKeyword:
+                case SyntaxKind.TakeKeyword:
                 case SyntaxKind.SelectKeyword:
                 case SyntaxKind.GroupKeyword:
                 case SyntaxKind.IntoKeyword:
@@ -1127,6 +1129,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.ByKeyword;
                 case "where":
                     return SyntaxKind.WhereKeyword;
+                case "take":
+                    return SyntaxKind.TakeKeyword;
                 case "select":
                     return SyntaxKind.SelectKeyword;
                 case "get":
@@ -1524,6 +1528,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return "by";
                 case SyntaxKind.WhereKeyword:
                     return "where";
+                case SyntaxKind.TakeKeyword:
+                    return "take";
                 case SyntaxKind.SelectKeyword:
                     return "select";
                 case SyntaxKind.GetKeyword:

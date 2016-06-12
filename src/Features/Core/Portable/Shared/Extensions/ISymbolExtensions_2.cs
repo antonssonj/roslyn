@@ -175,7 +175,7 @@ namespace Microsoft.CodeAnalysis.Shared.Extensions
                     (IMethodSymbol method) => GetMethodDocumentation(method),
                     (IAliasSymbol alias) => alias.Target.GetDocumentationComment(cancellationToken: cancellationToken).SummaryText,
                     _ => symbol.GetDocumentationComment(cancellationToken: cancellationToken).SummaryText);
-
+            
             return documentation != null
                 ? formatter.Format(documentation, semanticModel, position, CrefFormat)
                 : SpecializedCollections.EmptyEnumerable<SymbolDisplayPart>();

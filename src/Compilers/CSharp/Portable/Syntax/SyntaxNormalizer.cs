@@ -232,10 +232,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
             if ((nextToken.IsKind(SyntaxKind.FromKeyword) && nextToken.Parent.IsKind(SyntaxKind.FromClause)) ||
                 (nextToken.IsKind(SyntaxKind.LetKeyword) && nextToken.Parent.IsKind(SyntaxKind.LetClause)) ||
                 (nextToken.IsKind(SyntaxKind.WhereKeyword) && nextToken.Parent.IsKind(SyntaxKind.WhereClause)) ||
+                (nextToken.IsKind(SyntaxKind.TakeKeyword) && nextToken.Parent.IsKind(SyntaxKind.TakeClause)) ||
                 (nextToken.IsKind(SyntaxKind.JoinKeyword) && nextToken.Parent.IsKind(SyntaxKind.JoinClause)) ||
                 (nextToken.IsKind(SyntaxKind.JoinKeyword) && nextToken.Parent.Kind() == SyntaxKind.JoinIntoClause) ||
                 (nextToken.Kind() == SyntaxKind.OrderByKeyword && nextToken.Parent.Kind() == SyntaxKind.OrderByClause) ||
                 (nextToken.Kind() == SyntaxKind.SelectKeyword && nextToken.Parent.Kind() == SyntaxKind.SelectClause) ||
+                (nextToken.Kind() == SyntaxKind.MaxKeyword && nextToken.Parent.Kind() == SyntaxKind.SelectMaxClause) ||
                 (nextToken.Kind() == SyntaxKind.GroupKeyword && nextToken.Parent.Kind() == SyntaxKind.GroupClause))
             {
                 return 1;
@@ -252,6 +254,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
                 case SyntaxKind.OpenBracketToken:
                     return (nextToken.Parent is AttributeListSyntax && !(nextToken.Parent.Parent is ParameterSyntax)) ? 1 : 0;
                 case SyntaxKind.WhereKeyword:
+                case SyntaxKind.TakeKeyword:
                     return currentToken.Parent is TypeParameterListSyntax ? 1 : 0;
             }
 

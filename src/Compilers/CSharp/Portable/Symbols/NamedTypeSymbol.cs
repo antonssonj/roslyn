@@ -362,7 +362,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
 
         internal void GetExtensionMethods(ArrayBuilder<MethodSymbol> methods, string nameOpt, int arity, LookupOptions options)
         {
-            if (this.MightContainExtensionMethods)
+           // if (this.MightContainExtensionMethods)
             {
                 var members = nameOpt == null
                     ? this.GetMembersUnordered()

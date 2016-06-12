@@ -20,6 +20,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.AnonymousMethodExpression:
                 case SyntaxKind.LetClause:
                 case SyntaxKind.WhereClause:
+                case SyntaxKind.TakeClause:
                 case SyntaxKind.AscendingOrdering:
                 case SyntaxKind.DescendingOrdering:
                 case SyntaxKind.JoinClause:
@@ -71,6 +72,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 case SyntaxKind.WhereClause:
                     return ((WhereClauseSyntax)newLambda).Condition;
+                case SyntaxKind.TakeClause:
+                    return ((TakeClauseSyntax)newLambda).Condition;
 
                 case SyntaxKind.AscendingOrdering:
                 case SyntaxKind.DescendingOrdering:
@@ -140,6 +143,10 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.WhereClause:
                     var whereClause = (WhereClauseSyntax)parent;
                     return whereClause.Condition == node;
+
+                case SyntaxKind.TakeClause:
+                    var takeClause = (TakeClauseSyntax)parent;
+                    return takeClause.Condition == node;
 
                 case SyntaxKind.AscendingOrdering:
                 case SyntaxKind.DescendingOrdering:
@@ -216,7 +223,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             foreach (var clause in containingBody.Clauses)
             {
-                if (!clause.IsKind(SyntaxKind.WhereClause) && !clause.IsKind(SyntaxKind.OrderByClause))
+                if (!clause.IsKind(SyntaxKind.WhereClause) && !clause.IsKind(SyntaxKind.OrderByClause) && !clause.IsKind(SyntaxKind.TakeClause))
                 {
                     return false;
                 }
@@ -279,6 +286,10 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 case SyntaxKind.WhereClause:
                     lambdaBody1 = ((WhereClauseSyntax)node).Condition;
+                    return true;
+
+                case SyntaxKind.TakeClause:
+                    lambdaBody1 = ((TakeClauseSyntax)node).Condition;
                     return true;
 
                 case SyntaxKind.AscendingOrdering:

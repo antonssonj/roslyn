@@ -496,7 +496,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                 return (this.DeclarationModifiers & DeclarationModifiers.Static) != 0;
             }
         }
-
+        
         internal bool IsUnsafe
         {
             get

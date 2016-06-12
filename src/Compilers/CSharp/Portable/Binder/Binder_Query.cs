@@ -235,6 +235,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.WhereClause:
                     ReduceWhere((WhereClauseSyntax)topClause, state, diagnostics);
                     break;
+                case SyntaxKind.TakeClause:
+                    ReduceTake((TakeClauseSyntax)topClause, state, diagnostics);
+                    break;
                 case SyntaxKind.JoinClause:
                     ReduceJoin((JoinClauseSyntax)topClause, state, diagnostics);
                     break;
@@ -262,6 +265,20 @@ namespace Microsoft.CodeAnalysis.CSharp
             //     from x in ( e ) . Where ( x => f )
             var lambda = MakeQueryUnboundLambda(state.RangeVariableMap(), state.rangeVariable, where.Condition);
             var invocation = MakeQueryInvocation(where, state.fromExpression, "Where", lambda, diagnostics);
+            state.fromExpression = MakeQueryClause(where, invocation, queryInvocation: invocation);
+        }
+
+        private void ReduceTake(TakeClauseSyntax where, QueryTranslationState state, DiagnosticBag diagnostics)
+        {
+            // A query expression with a where clause
+            //     from x in e
+            //     where f
+            //     ...
+            // is translated into
+            //     from x in ( e ) . Where ( x => f )
+
+            var lambda =  BindValue(where.Condition, diagnostics, BindValueKind.RValue);  //MakeQueryUnboundLambda(state.RangeVariableMap(), state.rangeVariable, where.Condition);
+            var invocation = MakeQueryInvocation(where, state.fromExpression, "Take", lambda, diagnostics);
             state.fromExpression = MakeQueryClause(where, invocation, queryInvocation: invocation);
         }
 

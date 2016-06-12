@@ -875,6 +875,8 @@ namespace Microsoft.CodeAnalysis.Shared.Extensions
 
             if (xmlText.Contains("<inheritdoc />")) 
             {
+
+                
                 var higherSymbol = GetHigherSymbol(symbol);
                 if(higherSymbol != null)
                 {

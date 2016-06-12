@@ -43,7 +43,7 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGeneration
             IList<bool> availableIndices)
         {
             var methodDeclaration = GenerateMethodDeclaration(method, GetDestination(destination), options);
-            SyntaxFactory
+            
             //.WithLeadingTrivia(SyntaxFactory.TriviaList(
             //    SyntaxFactory.SyntaxTrivia(SyntaxKind.SingleLineCommentTrivia, "/// <inheritdoc />")
             //))

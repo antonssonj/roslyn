@@ -834,6 +834,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.LetClause:
                 case SyntaxKind.OrderByClause:
                 case SyntaxKind.SelectClause:
+                case SyntaxKind.TakeClause:
                 case SyntaxKind.WhereClause:
                     return new SourceLocation(syntax.GetFirstToken());
                 default:

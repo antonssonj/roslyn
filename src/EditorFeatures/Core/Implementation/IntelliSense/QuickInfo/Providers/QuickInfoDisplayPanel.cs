@@ -88,6 +88,9 @@ namespace Microsoft.CodeAnalysis.Editor.Implementation.IntelliSense.QuickInfo
                 symbolGlyphAndMainDescriptionDock.Children.Add(warningGlyphBorder);
             }
 
+            documentation.HorizontalAlignment = HorizontalAlignment.Left;
+            documentation.MaxWidth = 500;
+            
             this.Children.Add(symbolGlyphAndMainDescriptionDock);
             this.Children.Add(documentation);
             this.Children.Add(usageText);

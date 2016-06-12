@@ -187,7 +187,7 @@ namespace Microsoft.CodeAnalysis.CodeGeneration
             }
 
             var transformedDeclaration = declarationTransform(destinationDeclaration, options, availableIndices, cancellationToken);
-
+            
             var destinationTree = destinationDeclaration.SyntaxTree;
 
             var root = await destinationTree.GetRootAsync(cancellationToken).ConfigureAwait(false);

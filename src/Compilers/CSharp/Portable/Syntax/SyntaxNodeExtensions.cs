@@ -41,6 +41,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.QueryExpression:
                 case SyntaxKind.SelectClause:
                 case SyntaxKind.WhereClause:
+                case SyntaxKind.TakeClause:
+                case SyntaxKind.SelectMaxClause:
                     return true;
                 default:
                     return false;
